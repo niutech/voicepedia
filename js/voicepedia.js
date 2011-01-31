@@ -1,13 +1,14 @@
 /*!
  * Voicepedia Main Script
- * Copyright (c) 2011 niute.ch & mgdd.pl
+ * Copyright (c) 2011 niu tech & mgdd
  * Licensed under the GPL license:
  * http://www.gnu.org/licenses/gpl.html
  */
 $(function(){
 
 	// Variables
-	var q;
+	var q; //q[1] - lang, q[2] - query
+	var key = 'ABQIAAAApLOUdGnD4OYmcLuHE9AaUxSLYDr41SfHPbLdCa6aBi7cx_aScxRcYrCM_yFPz56GPWR-wfL4eCpzrQ'; //Google API key
 	
 	// Functions
 	vpSubmit = function(){
@@ -53,6 +54,18 @@ $(function(){
 			jsonpCallback: 'vpImResults',
 			cache: true
 		});
+		$.ajax({
+			url: 'https://ajax.googleapis.com/ajax/services/search/images',
+			data: {
+				v: '1.0',
+				key: key,
+				as_sitesearch: q[1]+'.wikipedia.org',
+				q: q[2]
+			},
+			dataType: 'jsonp',
+			jsonpCallback: 'vpGoogleImResults',
+			cache: true
+		});
 	}
 	
 	vpImResults = function(data){
@@ -60,9 +73,10 @@ $(function(){
 			$('#wikiimages').append('<img src="'+data.query.pages[i].imageinfo[0].thumburl+'" />');
 	}
 
-	/*vpGoogleImResults = function(data){
-		$('#googleimages').html(data.parse.images[0]);	
-	}*/
+	vpGoogleImResults = function(data){
+		for(var i in data.responseData.results)
+			$('#googleimages').append('<img src="'+data.responseData.results[i].url+'" />');
+	}
 
 	// Events
 	$('#search').bind('submit', vpSubmit);

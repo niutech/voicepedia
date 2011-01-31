@@ -59,7 +59,7 @@ $(function(){
 			data: {
 				v: '1.0',
 				key: key,
-				as_sitesearch: q[1]+'.wikipedia.org',
+				//as_sitesearch: q[1]+'.wikipedia.org',
 				q: q[2]
 			},
 			dataType: 'jsonp',

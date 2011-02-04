@@ -89,7 +89,7 @@ $(function(){
 			cache: true
 		});
 		$('#title').html(data.parse.displaytitle);
-		vpParseText(data.parse.text.*);
+		vpParseText(data.parse.text['*']);
 		
 	}
 	

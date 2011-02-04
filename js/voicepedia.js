@@ -20,6 +20,7 @@ $(function(){
 	// Variables
 	var q; //query
 	var key = 'ABQIAAAApLOUdGnD4OYmcLuHE9AaUxSLYDr41SfHPbLdCa6aBi7cx_aScxRcYrCM_yFPz56GPWR-wfL4eCpzrQ'; //Google API key
+	var currFrag = 0; //current fragment
 	
 	// Functions
 	vpSubmit = function(){
@@ -42,9 +43,8 @@ $(function(){
 					page: q
 			},
 			dataType: 'jsonp',
-			jsonpCallback: 'vpResults',
-			//success: vpResults,
-			cache: true
+			jsonpCallback: 'vpResults'
+			//success: vpResults
 		});
 	}
 
@@ -59,7 +59,7 @@ $(function(){
 			window.location.hash = encodeURIComponent(redir[2]);
 			return;
 		}
-		$.ajax({
+		/*$.ajax({
 			url: 'http://en.wikipedia.org/w/api.php',
 			data: {
 					action: 'query',
@@ -72,9 +72,8 @@ $(function(){
 					titles: 'File:'+data.parse.images.join('|File:')
 			},
 			dataType: 'jsonp',
-			jsonpCallback: 'vpImResults',
-			//success: vpImResults,
-			cache: true
+			jsonpCallback: 'vpImResults'
+			//success: vpImResults
 		});
 		$.ajax({
 			url: 'https://ajax.googleapis.com/ajax/services/search/images',
@@ -85,9 +84,9 @@ $(function(){
 				q: q
 			},
 			dataType: 'jsonp',
-			jsonpCallback: 'vpGoogleImResults',
-			cache: true
+			jsonpCallback: 'vpGoogleImResults'
 		});
+		*/
 		$('#title').html(data.parse.displaytitle);
 		vpParseText(data.parse.text['*']);
 		
@@ -96,27 +95,58 @@ $(function(){
 	vpImResults = function(data){
 		for(var i in data.query.pages)
 			if(data.query.pages[i].imageinfo)
-				$('#wikiimages').append('<img src="'+data.query.pages[i].imageinfo[0].thumburl+'" />');
+				$('#images').append('<img src="'+data.query.pages[i].imageinfo[0].thumburl+'" />');
 	}
 
 	vpGoogleImResults = function(data){
 		for(var i in data.responseData.results)
-			$('#googleimages').append('<img src="'+data.responseData.results[i].url+'" />');
+			$('#images').append('<img src="'+data.responseData.results[i].url+'" />');
 	}
 
 	vpParseText = function(text){
-		$('<div id="text">'+text+'</div>').appendTo('#wikitext').children('h2, h3, p, blockquote, ul').not('h3 #References').css('background','yellow');
+		if(!text)
+			return;
+		$('#text').html($('<div>'+text+'</div>').children('h2, h3, p, blockquote, ul').append('<span> </span>')).find('small, sup, .editsection, #coordinates').empty();
+		$('<span>. </span>').appendTo('#text h2, #text h3').hide();
 		$('#q').removeClass('ac_loading');
-		$('#results').show();
+		$('#results').slideDown();
+		vpTTS($('#text').text());
 	}
 	
 	
 	vpTTS = function(text){
-		
+		if(!text)
+			return;
+		var sentces = text.split(/\.\s|;\s|\n/); //Split on dots, semicolons, newlines
+		var goodsentces = [];
+		for(var i=0; i<sentces.length; i++){
+			if(sentces[i].length>=100){ //Google has a limit of 100 chars
+				var smallersentces = sentces[i].split(/,\s/); //Split on commas
+				for(var j=0; j<smallersentces.length-1; j++){
+					if(smallersentces[j].length>=100){
+						var smallestsentces = smallersentces[j].split(/\s/); //Split on spaces
+						for(var k=0; k<smallestsentces.length-1; k++)
+							if(/\w+/.test(smallestsentces[k]))
+								goodsentces.push(smallestsentces[k]);
+						goodsentces.push(smallestsentces[smallestsentces.length-1]+',');
+					}
+					else if(/\w+/.test(smallersentces[j]))
+						goodsentces.push(smallersentces[j]+',');
+				}
+				goodsentces.push(smallersentces[smallersentces.length-1]+'.');
+			}
+			else if(/\w+/.test(sentces[i]))
+				goodsentces.push(sentces[i]+'.');
+		}
+		vpPlay(goodsentces);
 	}
 	
-	vpPlay = function(){
-		
+	vpPlay = function(frags){
+		$('#voice').attr('src','http://translate.google.com/translate_tts?tl=en&q='+encodeURIComponent($.trim(frags[currFrag]))).bind('ended',function(){
+			if(++currFrag<frags.length){
+				vpPlay(frags);
+			}
+		});
 	}
 	
 	

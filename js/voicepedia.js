@@ -31,7 +31,7 @@ $(function(){
 		q = window.location.hash.replace(/^#/,'');
 		if(!q)
 			return;
-		$('#q').val(q).addClass('ac_loading');
+		$('#q').val(decodeURIComponent(q)).addClass('ac_loading');
 		$.ajax({
 			url: 'http://en.wikipedia.org/w/api.php',
 			data: {

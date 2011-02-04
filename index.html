@@ -1,32 +1,65 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Voicepedia - the voice-enabled audio-visual Wikipedia</title>
-</head>
-<body>
-	<h1>Voicepedia</h1>
-	<form method="get" action="" id="search">
-		<p>
-			<input id="q" type="text" value="" style="width: 400px" />
-			<select id="l">
-				<option value="en">en</option>
-				<option value="pl">pl</option>
-			</select>
-			<input type="submit" value="Szukaj" />
-		</p>
-	</form>
-	<p><u>Title:</u></p>
-	<div id="wikititle"></div>
-	<p><u>Text:</u></p>
-	<div id="wikitext"></div>
-	<p><u>Wiki images:</u></p>
-	<div id="wikiimages"></div>
-	<p><u>Google Search images:</u></p>
-	<div id="googleimages"></div>
-	
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
-	<script src="/js/jquery.cycle.lite.1.0.min.js" type="text/javascript"></script>
-	<script src="js/voicepedia.js" type="text/javascript"></script>
-</body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Voicepedia - the voice-enabled audio-visual Wikipedia</title>
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="header">
+            </div>
+            <div id="form">
+                <form method="get" action="" id="search">
+                    <p>
+                        <input id="q" type="text" placeholder="Search Wikipedia..." value="" /><input type="submit" id="s" value=" " />
+                    </p>
+                </form>
+            </div>
+            <div id="body">
+                <h1 id="title"></h1>
+                <div id="results" style="display: none;">
+                    <p>
+                        <u>
+                            Text:
+                        </u>
+                    </p>
+                    <div id="wikitext">
+                    </div>
+                    <p>
+                        <u>
+                            Wiki images:
+                        </u>
+                    </p>
+                    <div id="wikiimages">
+                    </div>
+                    <p>
+                        <u>
+                            Google Search images:
+                        </u>
+                    </p>
+                    <div id="googleimages">
+                    </div>
+                </div>
+            </div>
+            <div id="footer">
+                <p>
+                    &copy; 2011 <a href="http://niute.ch" rel="external">niu tech</a>
+                    &amp; <a href="http://mgdd.pl" rel="external">mgdd</a>
+                </p>
+                <p>
+                    Text from <a href="http://en.wikipedia.org" rel="external">Wikipedia</a>
+                    is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply.
+                </p>
+            </div>
+        </div>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="js/jquery.cycle.lite.1.0.min.js" type="text/javascript">
+        </script>
+        <script src="js/jquery.autocomplete.min.js" type="text/javascript">
+        </script>
+        <script src="js/voicepedia.js" type="text/javascript">
+        </script>
+    </body>
 </html>

@@ -261,9 +261,6 @@ Voicepedia.Presenter = {};
         }).on('pause ended', function(e) {
             images.cycle('pause');
         });
-        $(window).load(function() {
-            voice[0].play();
-        });
     };
 
     /**

@@ -9,56 +9,68 @@ border: 0;
 body {
 font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 font-size: 12px;
-color: #555;	
-background: #f0f0f0 url(../img/bg.jpg) repeat-x;
+color: #555;
+background: #f3f3f3 url(../img/bg.jpg) repeat-x;
 }
 
 p  { margin: 10px 0; }
-h1 { font-size: 24px; margin: 20px 0; color: #239ccc; }
-h2 { font-size: 20px; margin: 10px 0; color: #239ccc; }
-h3 { font-size: 16px; margin: 10px 0; color: #239ccc; }
-
+h1 { font-size: 24px; margin: 0 0 20px; color: #239ccc; }
+h2 { font-size: 20px; margin: 40px 0 20px; color: #239ccc; }
+ul, ol { list-style: none; }
 a, a:visited  { color: #239ccc; text-decoration: none; }
 a:hover { color: #35c9ff; text-decoration: none; }
 
 #wrapper {
-margin: auto;
-width: 960px;
+	margin: auto;
+	width: 960px;
 }
 
-#header {
-background: url(../img/top.jpg) no-repeat;
-height: 370px;
+header {
+	background: url(../img/top.jpg) no-repeat;
+	height: 370px;
 }
 
-#form {
+header h1 {
+	margin: 0;
+	text-indent: -5432px; 
+}
+
+form {
 	background: url(../img/search.png) no-repeat;
-	width: 461px;
+	width: 473px;
 	height: 72px;
-	padding: 10px 50px;
+	padding: 9px 39px 11px;
 	margin: 0 auto 100px;
 }
 
 #q {
-	padding: 0;
-	width: 307px;
-	height: 48px;
-	font: 24px/48px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	padding: 10px;
+	width: 303px;
+	height: 32px;
+	font: 24px/32px "Trebuchet MS", Arial, Helvetica, sans-serif;
 	background: none;
 	border: none;
+        outline: none;
 }
 
 #s {
+	margin: 0 0 0 9px;
 	padding: 0;
-	width: 154px;
-	height: 48px;
+	width: 141px;
+	height: 52px;
+	vertical-align: top;
 	background: none;
 	border: none;
+        outline: none;
 	cursor: pointer;
 }
 
 #body {
-	margin-bottom: 70px;	
+	padding-bottom: 70px;	
+}
+
+#body.loading {
+        background: url(../img/loading.gif) no-repeat top center;
 }
 
 #results {
@@ -69,7 +81,20 @@ height: 370px;
 	padding: 20px;
 }
 
-#footer {
+#images, #images li, #voice {
+	display: block;
+	width: 100%;
+        background-color: transparent !important;
+}
+
+#images img {
+	display: block;
+	margin: auto;
+        height: 100%;
+        max-width: 100%;
+}
+
+footer {
 	margin: 20px 0;
 	border-top: 1px dotted #aaa;
 	border-bottom: 1px dotted #aaa;
@@ -78,40 +103,6 @@ height: 370px;
 	color: #aaa;
 }
 
-
-/* jQuery Autocomplete by bassistance.de */
-.ac_results {
-	padding: 0px;
-	border: 1px solid #aaa;
-	background-color: white;
-	overflow: hidden;
-	z-index: 99999;
-}
-
-.ac_results ul {
-	width: 100%;
-	list-style-position: outside;
-	list-style: none;
-	padding: 0;
-	margin: 0;
-}
-
-.ac_results li {
-	margin: 0px;
-	padding: 2px 5px;
-	cursor: default;
-	display: block;
-	font: menu;
-	font-size: 18px;
-	line-height: 24px;
-	overflow: hidden;
-}
-
-.ac_loading {
-	background: transparent url(../img/indicator.gif) 280px 18px no-repeat !important;
-}
-
-.ac_over {
-	background-color: Highlight;
-	color: HighlightText;
-}
+.autocomplete-suggestions { border: 1px solid WindowFrame; background: Window; cursor: default; overflow: auto; -webkit-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); -moz-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; font: menu; }
+.autocomplete-selected { background: Highlight; color: HighlightText; }

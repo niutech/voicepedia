@@ -16,7 +16,6 @@ background: #f3f3f3 url(../img/bg.jpg) repeat-x;
 p  { margin: 10px 0; }
 h1 { font-size: 24px; margin: 0 0 20px; color: #239ccc; }
 h2 { font-size: 20px; margin: 40px 0 20px; color: #239ccc; }
-ul, ol { list-style: none; }
 a, a:visited  { color: #239ccc; text-decoration: none; }
 a:hover { color: #35c9ff; text-decoration: none; }
 
@@ -50,7 +49,7 @@ form {
 	font: 24px/32px "Trebuchet MS", Arial, Helvetica, sans-serif;
 	background: none;
 	border: none;
-        outline: none;
+	outline: none;
 }
 
 #s {
@@ -61,7 +60,7 @@ form {
 	vertical-align: top;
 	background: none;
 	border: none;
-        outline: none;
+	outline: none;
 	cursor: pointer;
 }
 
@@ -70,7 +69,7 @@ form {
 }
 
 #body.loading {
-        background: url(../img/loading.gif) no-repeat top center;
+	background: url(../img/loading.gif) no-repeat top center;
 }
 
 #results {
@@ -84,14 +83,18 @@ form {
 #images, #images li, #voice {
 	display: block;
 	width: 100%;
-        background-color: transparent !important;
+	background-color: transparent !important;
+}
+
+#images ul {
+	list-style: none;
 }
 
 #images img {
 	display: block;
 	margin: auto;
-        height: 100%;
-        max-width: 100%;
+	height: 100%;
+	max-width: 100%;
 }
 
 footer {

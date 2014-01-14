@@ -5,6 +5,6 @@ This project provides a voice-enabled, audio-visual experience for Wikipedia, th
 
 The content from Wikipedia and Flickr is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply.
 
-Copyright (c) 2014 [niu tech](http://niute.ch) & [mgdd](http://mgdd.pl).
+Copyright (c) 2014 [Jerzy Głowacki](http://niute.ch).
 
 Licensed under the [GPL3 license](http://www.gnu.org/licenses/gpl.html).

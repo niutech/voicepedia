@@ -12,14 +12,13 @@
             </header>
             <form id="search" method="get" action="#">
                 <p>
-                    <input id="q" type="text" placeholder="Search Wikipedia..." value=""><input type="submit" id="s" value=" ">
+                    <input id="q" type="text" placeholder="Search Wikipedia..." value="" x-webkit-speech speech><input type="submit" id="s" value=" ">
                 </p>
             </form>
             <section id="body"></section>
             <footer>
                 <p>
-                    &copy; 2014 <a href="http://niute.ch" rel="external">niu tech</a>
-                    &amp; <a href="http://mgdd.pl" rel="external">mgdd</a>
+                    &copy; 2014 <a href="http://niute.ch" rel="external">Jerzy Głowacki</a>
                 </p>
                 <p>
                     Text and photos from <a href="http://en.wikipedia.org" rel="external">Wikipedia</a> and <a href="http://flickr.com" rel="external">Flickr</a> are available under the Creative Commons Attribution-ShareAlike License; additional terms may apply.
@@ -31,10 +30,13 @@
                 <h1 id="title">{title}</h1>
                 <ul id="images">{images}</ul>
                 <audio id="voice" controls autoplay src="{voice}">
-                        Your browser does not support the audio element. Try using Google Chrome.
+                    Your browser does not support the audio element. Try using Google Chrome.
                 </audio>
                 <h2>Transcript</h2>
-                <div id="text">{text}<br><br>Read more on <a href="http://en.wikipedia.org/wiki/{title}" rel="external">Wikipedia</a>.</div>
+                <div id="text">
+                    {text}
+                    <p>Read more on <a href="http://en.wikipedia.org/wiki/{title}" rel="external">Wikipedia</a>.</p>
+                </div>
             </article>
         </script>
         <script id="imagesTmpl" type="text/tmpl">

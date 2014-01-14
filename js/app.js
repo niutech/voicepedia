@@ -1,6 +1,6 @@
 /*!
- * Voicepedia Main Script
- * Copyright (c) 2014 niu tech & mgdd
+ * Voicepedia 1.1
+ * Copyright (c) 2014 Jerzy Głowacki
  * Licensed under the GPL license:
  * http://www.gnu.org/licenses/gpl.html
  */
@@ -25,6 +25,7 @@ Voicepedia.Presenter = {};
     var images;
     var text;
     var title;
+    var voice;
 
     //Methods
 
@@ -33,8 +34,6 @@ Voicepedia.Presenter = {};
      * @param {string} query
      */
     self.searchWikipedia = function(query) {
-        if (!query)
-            return;
         $.ajax({
             url: 'http://en.wikipedia.org/w/api.php',
             data: {
@@ -70,8 +69,8 @@ Voicepedia.Presenter = {};
      * @param {{text: object, title: string}} res
      */
     self.parseWikiResults = function(res) {
-        var $text = $('<div>' + res.text['*'].replace(/src/g, 'data-src') + '</div>');
-        var loc = $text.find('.geo').first().text().replace(/; /, ',');
+        var $text = $('<div>' + res.text['*'].replace(/src/g, 'data-src') + '</div>'); //prevent loading thumbnails
+        var loc = $text.find('.geo').first().text().replace(/; /, ','); //find geo location
         images = [];
         if (loc) {
             images.push({
@@ -93,13 +92,17 @@ Voicepedia.Presenter = {};
         }
         $text.find('.infobox .image img[data-src^="//upload.wikimedia.org"], img.thumbimage[data-src^="//upload.wikimedia.org"]').each(function() {
             images.push({
-                src: 'http://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&gadget=a&no_expand=1&resize_h=480&rewriteMime=image%2f*&url=' + encodeURIComponent(this.dataset.src.replace(/\/thumb/, '').replace(/\/[^\/]+$/, '')),
+                src: 'http://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&gadget=a&no_expand=1&resize_h=480&rewriteMime=image%2f*&url=' + encodeURIComponent($(this).attr('data-src').replace(/\/thumb/, '').replace(/\/[^\/]+$/, '')),
                 alt: this.alt
             });
         });
-        $text.find('.reference, span, small, a[href$="language"]').remove();
-        $text = $text.children('p').first().nextUntil('h2', 'p').addBack().append(" ");
-        text = $text.text();
+        $text.children('p').first().nextUntil('h2', 'p, ul, ol, h3').addBack().append(" ").appendTo($text.empty()); //strip article text
+        $text.find('.reference, span, small, a[title$="sh language"], a[title$="ese language"], a[title$="an language"], a[title$="ch language"], a[title$="ic language"]').remove();
+        $text.find('a').attr('href', function(i, href) {
+           return decodeURIComponent(href).replace(/\/wiki\//g, '#').replace(/_/g, ' '); //replace links
+        });
+        text = $text.html().replace(/\([ ,;:or]*\)/g, '');
+        voice = $text.text().replace(/\([ ,;:or]*\)/g, '');
         title = res.title;
         self.searchFlickr(title);
     };
@@ -109,8 +112,6 @@ Voicepedia.Presenter = {};
      * @param {string} query
      */
     this.searchFlickr = function(query) {
-        if (!query)
-            return;
         $.ajax({
             url: 'http://api.flickr.com/services/feeds/photos_public.gne',
             data: {
@@ -138,7 +139,7 @@ Voicepedia.Presenter = {};
                 });
             });
         }
-        self.trigger('showResults', {title: title, text: text, images: images});
+        self.trigger('showResults', {title: title, text: text, images: images, voice: voice});
     };
 
 }).apply(Voicepedia.Model);
@@ -214,15 +215,18 @@ Voicepedia.Presenter = {};
 
     /**
      * Shows the final results
-     * @param {{title: string, text: string, images: array}} res
+     * @param {{title: string, text: string, images: array, voice: string}} res
      */
     this.showResults = function(res) {
         body.removeClass('loading');
-        res.voice = 'http://tts-api.com/tts.mp3?q=' + encodeURIComponent(res.text);
+        res.voice = 'http://tts-api.com/tts.mp3?q=' + encodeURIComponent(res.voice);
         res.images = $.map(res.images, function(image) {
-            return $.render(imagesTmpl.html(), image);
+            return $.render(imagesTmpl.html(), image); //render each image tag
         }).join('');
-        body.html($.render(resultsTmpl.html(), res));
+        body.html($.render(resultsTmpl.html(), res)); //render article tag
+        $('img').on('error', function() {
+            $(this).parent().remove(); //remove errorneous images
+        });
         $('html').animate({scrollTop: body.offset().top});
         this.setupSlider();
         this.setupVoice();
@@ -267,9 +271,8 @@ Voicepedia.Presenter = {};
      * Starts the narration
      */
     this.startVoice = function() {
-        var speech;
         if (window.speechSynthesis) {
-            speech = new SpeechSynthesisUtterance(voice);
+            var speech = new SpeechSynthesisUtterance(voice);
             speech.lang = 'en-US';
             window.speechSynthesis.speak(speech);
         }

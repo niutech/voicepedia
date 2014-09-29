@@ -97,7 +97,7 @@ Voicepedia.Presenter = {};
             });
         });
         $text.children('p').first().nextUntil('h2', 'p, ul, ol, h3').addBack().append(" ").appendTo($text.empty()); //strip article text
-        $text.find('.reference, span, small, a[title$="sh language"], a[title$="ese language"], a[title$="an language"], a[title$="ch language"], a[title$="ic language"]').remove();
+        $text.find('.reference, span, small, a[title$="sh language"], a[title$="ese language"], a[title$="an language"], a[title$="ch language"], a[title$="ic language"], a[title="Latin language"], a[title="Greek language"]').remove();
         $text.find('a').attr('href', function(i, href) {
            return decodeURIComponent(href).replace(/\/wiki\//g, '#').replace(/_/g, ' '); //replace links
         });
